@@ -1,3 +1,4 @@
 .idea
+*.pyc
 /api/local.env
 .env
