@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_yasg",
     # Internal apps
+    "rocket.apps.objects",
+    "rocket.apps.products",
+    "rocket.apps.users",
+    "rocket.apps.contacts",
 ]
 
 MIDDLEWARE = [
