@@ -83,6 +83,7 @@ target-version = "py311"
 
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401", "F403"]
+"admin.py" = ["F401"]
 "conftest*" = ["F403"]
 "test_*.py" = ["S"]
 "tests.py" = ["S"]
