@@ -6,6 +6,11 @@ REST_FRAMEWORK = {
         "rest_framework.renders.JSONRenderer",
         "rest_framework.renders.BrowsableAPIRenderer",
     ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
 }
 
 # CORS_ALLOWED_ORIGINS = env.list("ROCKET_CORS_ALLOWED_ORIGINS", default=[])
