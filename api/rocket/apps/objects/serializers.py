@@ -26,7 +26,7 @@ class ChainObjectListSerializer(BaseSerializer):
 
 
 class ChainObjectCreateSerializer(BaseSerializer):
-    pass
+    contact = serializers.ReadOnlyField()
     # def create(self, validated_data):
     #     if validated_data["supplier"] is None or validated_data["type"] > validated_data["supplier"].type:
     #         return super().create(validated_data)

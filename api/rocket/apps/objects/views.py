@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from django_filters import rest_framework as filters
 
+from rocket.apps.common.permissions import IsActivePermission
 from rocket.apps.objects.filters import ChainObjectFilter
 from rocket.apps.objects.models import ChainObject
 from rocket.apps.objects.serializers import (
@@ -21,6 +22,7 @@ class ChainObjectViewSet(
     serializer_class = ChainObjectListSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ChainObjectFilter
+    permission_classes = (IsActivePermission,)
 
     def get_serializer_class(self):
         if self.action == "create":
