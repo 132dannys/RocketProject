@@ -7,9 +7,11 @@ from rocket.apps.products.serializers import ProductListSerializer
 
 
 class BaseSerializer(serializers.ModelSerializer):
+    created = serializers.ReadOnlyField()
+
     class Meta:
         model = ChainObject
-        fields = ("uuid", "name", "type", "supplier", "products", "dept", "contact")
+        fields = ("uuid", "name", "type", "supplier", "products", "dept", "contact", "created")
 
     def save(self, **kwargs):
         ModelClass = self.Meta.model

@@ -1,5 +1,5 @@
 from django.db.models import Avg
-from rest_framework import mixins, viewsets
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -15,9 +15,7 @@ from rocket.apps.objects.serializers import (
 )
 
 
-class ChainObjectViewSet(
-    mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet
-):
+class ChainObjectViewSet(viewsets.ModelViewSet):
     queryset = ChainObject.objects.all()
     serializer_class = ChainObjectListSerializer
     filter_backends = (filters.DjangoFilterBackend,)

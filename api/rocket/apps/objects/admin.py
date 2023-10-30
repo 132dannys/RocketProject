@@ -7,7 +7,7 @@ from rocket.apps.objects.models import ChainObject
 
 @admin.register(ChainObject)
 class ChainObjectAdmin(admin.ModelAdmin):
-    list_display = ("name", "type", "dept", "supplier_link", "contact")
+    list_display = ("name", "type", "dept", "supplier_link", "contact", "created")
     list_filter = ("contact__address__city",)
     readonly_fields = ("supplier_link",)
     actions = ("clear_debt",)
