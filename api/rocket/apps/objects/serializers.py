@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 from rocket.apps.contacts.serializers import ContactSerializer
@@ -10,14 +11,17 @@ class BaseSerializer(serializers.ModelSerializer):
         model = ChainObject
         fields = ("uuid", "name", "type", "supplier", "products", "dept", "contact")
 
-    # def validate(self, attrs):
-    #     if self.instance:
-    #         pass
-    #     else:
-    #         if attrs["supplier"] is not None and attrs["type"] > attrs["supplier"].type:
-    #             raise serializers.ValidationError(
-    #                 {"supplier": "Supplier must be less than the Type in the Chain hierarchy."})
-    #         return attrs
+    def save(self, **kwargs):
+        ModelClass = self.Meta.model
+        products = self.validated_data.pop("products")
+        instance = ModelClass(**self.validated_data)
+        try:
+            instance.clean()
+        except ValidationError as e:
+            raise serializers.ValidationError(e.message_dict)
+        instance = super().save(**kwargs)
+        instance.products.set(products)
+        return instance
 
 
 class ChainObjectListSerializer(BaseSerializer):
@@ -27,21 +31,7 @@ class ChainObjectListSerializer(BaseSerializer):
 
 class ChainObjectCreateSerializer(BaseSerializer):
     contact = serializers.ReadOnlyField()
-    # def create(self, validated_data):
-    #     if validated_data["supplier"] is None or validated_data["type"] > validated_data["supplier"].type:
-    #         return super().create(validated_data)
-    #     raise serializers.ValidationError({"supplier": "Supplier must be less than the Type in the Chain hierarchy."})
 
 
 class ChainObjectUpdateSerializer(BaseSerializer):
     dept = serializers.ReadOnlyField()
-
-    # def update(self, instance, validated_data):
-    #     if validated_data.get("type") is not None:
-    #         if instance.supplier is not None:
-    #             if validated_data["type"] > instance.supplier.type:
-    #                 return super().update(instance, validated_data)
-    #         else:
-    #             if validated_data["type"] != PlaceType.factory:
-    #                 raise serializers.ValidationError({""})
-    #     raise serializers.ValidationError({"supplier": "Supplier must be less than the Type in the Chain hierarchy."})
