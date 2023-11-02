@@ -29,7 +29,7 @@ def celery_conf_check(app_configs, **kwargs):
 
     mapping_settings = {
         "broker_url": "CELERY_BROKER_URL",
-        "task_always_eager": "CELERY_ALWAYS_EAGER",
+        "task_always_eager": "CELERY_TASK_ALWAYS_EAGER",
         "result_backend": "CELERY_RESULT_BACKEND",
         "timezone": "CELERY_TIMEZONE",
         "task_ignore_result": "CELERY_TASK_IGNORE_RESULT",
