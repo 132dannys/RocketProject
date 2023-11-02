@@ -13,8 +13,14 @@ class BaseProductSerializer(serializers.ModelSerializer):
         """
         Method to validate Release date. Release date cannot be date before today.
         """
+        # try to create global validation
         ModelClass = self.Meta.model
-        instance = ModelClass(**self.validated_data)
+        if self.instance is None:
+            instance = ModelClass(**self.validated_data)
+        else:
+            instance = self.instance
+            for key, value in self.validated_data.items():
+                setattr(instance, key, value)
         try:
             instance.clean()
         except ValidationError as e:
