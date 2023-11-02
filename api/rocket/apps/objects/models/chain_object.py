@@ -18,6 +18,9 @@ class ChainObject(CoreModel):
     dept = models.DecimalField(default=0, max_digits=100, decimal_places=2)
 
     def clean(self):
+        """
+        Method to validate Supplier hierarchy. Supplier must be less than the Type in the Chain hierarchy.
+        """
         if self.supplier is None:
             pass
         elif self.type <= self.supplier.type:

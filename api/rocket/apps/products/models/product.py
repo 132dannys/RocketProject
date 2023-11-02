@@ -11,6 +11,9 @@ class Product(CoreModel):
     release = models.DateField()
 
     def clean(self):
+        """
+        Method to validate Release date. Release date cannot be date before today.
+        """
         if self.release < date.today():
             raise ValidationError({"release": "Release must be a date starting from today."})
 
