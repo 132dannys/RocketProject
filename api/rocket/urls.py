@@ -14,9 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include, re_path
+
+from rocket.apps.objects.views import ChainObjectView
 
 
 API_PREFIX = "api"
@@ -28,6 +31,10 @@ admin_urlpatterns = [
 ]
 
 api_v1_urlpatterns = [
+    path(
+        "objects",
+        ChainObjectView.as_view(),
+    ),
     path(
         f"{API_V1_PREFIX}/",
         include(("rocket.apps.objects.urls", "objects"), namespace="api-v1-objects"),
@@ -78,3 +85,7 @@ if "SWAGGER" in settings.ROCKET_FEATURES:
     ]
 
 urlpatterns += swagger_urlpatterns
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

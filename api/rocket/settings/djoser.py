@@ -17,7 +17,7 @@ DJOSER = {
         "set_username": "djoser.serializers.SetUsernameSerializer",
         "username_reset": "djoser.serializers.SendEmailResetSerializer",
         "username_reset_confirm": "djoser.serializers.UsernameResetConfirmSerializer",
-        "user_create": "rocket.apps.users.serializers.CustomUserCreateSerializer",
+        "user_create": "djoser.serializers.UserCreateSerializer",
         "user_delete": "djoser.serializers.UserDeleteSerializer",
         "user": "djoser.serializers.UserSerializer",
         "current_user": "djoser.serializers.UserSerializer",

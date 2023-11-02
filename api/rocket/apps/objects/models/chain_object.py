@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from rocket.apps.common.models.core_model import CoreModel
@@ -6,7 +7,11 @@ from rocket.apps.objects.choices import PlaceType
 
 
 class ChainObject(CoreModel):
-    name = models.CharField(max_length=127, unique=True)
+    name = models.CharField(max_length=50, unique=True)
+    contact = models.OneToOneField(
+        "contacts.Contact", related_name="chain_object", null=True, on_delete=models.SET_NULL
+    )
+    employees = models.ManyToManyField(User, blank=True)
     type = models.PositiveSmallIntegerField(choices=PlaceType.choices, default=PlaceType.factory)
     supplier = models.ForeignKey("self", related_name="parent", null=True, blank=True, on_delete=models.SET_NULL)
     products = models.ManyToManyField("products.Product", related_name="chain_objects", default=None, blank=True)

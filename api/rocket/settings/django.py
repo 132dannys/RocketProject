@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     # Internal apps
     "rocket.apps.objects",
     "rocket.apps.products",
-    "rocket.apps.users",
     "rocket.apps.contacts",
 ]
 
@@ -122,8 +121,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "public", "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "public", "static")
@@ -137,4 +137,10 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "users.User"
+
+EMAIL_HOST = env.str("EMAIL_HOST")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
