@@ -54,7 +54,7 @@ class ChainObjectViewSet(viewsets.ModelViewSet):
         Method of getting Objects, where Debt more than average Debt in Chain.
         """
         queryset = self.filter_queryset(self.get_queryset())
-        queryset = queryset.filter(dept__gt=queryset.aggregate(average_dept=Avg("dept"))["average_dept"])
+        queryset = queryset.filter(debt__gt=queryset.aggregate(average_debt=Avg("debt"))["average_debt"])
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -74,6 +74,7 @@ class ChainObjectViewSet(viewsets.ModelViewSet):
 class SecureChainObjectViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = ChainObject.objects.all()
     serializer_class = ChainObjectListSerializer
+    permission_classes = (IsActivePermission,)
 
     def get_queryset(self):
         return (

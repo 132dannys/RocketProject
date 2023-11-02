@@ -19,19 +19,26 @@ class BaseObjectSerializer(serializers.ModelSerializer):
         """
         Method to validate Supplier hierarchy. Supplier must be less than the Type in the Chain hierarchy.
         """
+        # try to create global validation
         ModelClass = self.Meta.model
         contact = self.validated_data.pop("contact", None)
         products = self.validated_data.pop("products", None)
         employees = self.validated_data.pop("employees", None)
-        instance = ModelClass(**self.validated_data)
+        if self.instance is None:
+            instance = ModelClass(**self.validated_data)
+        else:
+            instance = self.instance
+            for key, value in self.validated_data.items():
+                setattr(instance, key, value)
         try:
             instance.clean()
         except ValidationError as e:
             raise serializers.ValidationError(e.message_dict)
+        instance = super().save(**kwargs)
         if contact is not None:
             contact = Contact.objects.create(**contact)
             instance.contact = contact
-        instance = super().save(**kwargs)
+            instance.save()
         if employees is not None:
             instance.employees.set(employees)
         if products is not None:
@@ -56,18 +63,13 @@ class ChainObjectCreateSerializer(BaseObjectSerializer):
 
 
 class ChainObjectUpdateSerializer(BaseObjectSerializer):
-    products = ProductListSerializer(many=True)
-    employees = EmployerSerializer(many=True)
     contact = ContactSerializer()
-    dept = serializers.ReadOnlyField()
+    debt = serializers.ReadOnlyField()
 
 
 class ChainObjectPartialUpdateSerializer(BaseObjectSerializer):
-    name = serializers.CharField(required=False)
-    products = ProductListSerializer(many=True, required=False)
-    employees = EmployerSerializer(many=True, required=False)
     contact = ContactSerializer(required=False)
-    dept = serializers.ReadOnlyField()
+    debt = serializers.ReadOnlyField()
 
 
 class ChainObjectUUIDSerializer(serializers.ModelSerializer):

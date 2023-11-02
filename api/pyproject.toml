@@ -19,7 +19,6 @@ sentry-sdk = "^1.32.0"
 djoser = "^2.2.0"
 djangorestframework-simplejwt = "^5.3.0"
 qrcode = {extras = ["pil"], version = "^7.4.2"}
-factory-boy = "^3.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -90,7 +89,7 @@ target-version = "py311"
 "__init__.py" = ["F401", "F403"]
 "admin.py" = ["F401"]
 "conftest*" = ["F403"]
-"test_*.py" = ["S"]
+"test_*.py" = ["S", "F811", "F401"]
 "tests.py" = ["S"]
 "*_test.py" = ["S"]
 "tasks.py" = ["F841"]
