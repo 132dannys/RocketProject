@@ -38,13 +38,10 @@ class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
 
-    # username = factory.Factory("user_name")
-    # email = factory.Factory("email")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     username = factory.Faker("email")
     password = factory.LazyFunction(lambda: make_password("pi3.1415"))
-    # is_active = factory.Factory("boolean")
 
 
 class ChainObjectFactory(DjangoModelFactory):
@@ -62,10 +59,10 @@ class ChainObjectFactory(DjangoModelFactory):
         self.products.add(*extracted)
 
     @factory.post_generation
-    def users(self, create, extracted, **kwargs):
+    def employees(self, create, extracted, **kwargs):
         if not create or not extracted:
             return
-        self.users.add(*extracted)
+        self.employees.add(*extracted)
 
     @factory.lazy_attribute
     def supplier(self):
