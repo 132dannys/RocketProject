@@ -1,3 +1,5 @@
+from celery.schedules import crontab
+
 from rocket.enviroment import env
 from .django import TIME_ZONE as DJANGO_TIME_ZONE
 
@@ -9,4 +11,7 @@ CELERY_RESULT_BACKEND = env.str("ROCKET_CELERY_RESULT_BACKEND_URL", default=CELE
 CELERY_TIMEZONE = DJANGO_TIME_ZONE
 CELERY_TASK_IGNORE_RESULT = True
 
-CELERY_BEAT_SCHEDULE = {}
+CELERY_BEAT_SCHEDULE = {
+    "increase_dept": {"task": "rocket.apps.objects.tasks.increase_dept", "schedule": crontab(hour="*/30", minute=0)},
+    "decrease_dept": {"task": "rocket.apps.objects.tasks.decrease_dept", "schedule": crontab(hour=6, minute=30)},
+}
