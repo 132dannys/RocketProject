@@ -10,6 +10,9 @@ class BaseProductSerializer(serializers.ModelSerializer):
         fields = ("uuid", "name", "model", "release")
 
     def save(self, **kwargs):
+        """
+        Method to validate Release date. Release date cannot be date before today.
+        """
         ModelClass = self.Meta.model
         instance = ModelClass(**self.validated_data)
         try:

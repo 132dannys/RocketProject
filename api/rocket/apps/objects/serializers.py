@@ -16,6 +16,9 @@ class BaseObjectSerializer(serializers.ModelSerializer):
         fields = ("uuid", "name", "type", "supplier", "products", "employees", "dept", "contact", "created")
 
     def save(self, **kwargs):
+        """
+        Method to validate Supplier hierarchy. Supplier must be less than the Type in the Chain hierarchy.
+        """
         ModelClass = self.Meta.model
         contact = self.validated_data.pop("contact", None)
         products = self.validated_data.pop("products", None)
@@ -25,12 +28,10 @@ class BaseObjectSerializer(serializers.ModelSerializer):
             instance.clean()
         except ValidationError as e:
             raise serializers.ValidationError(e.message_dict)
-        instance = super().save(**kwargs)
-
         if contact is not None:
             contact = Contact.objects.create(**contact)
             instance.contact = contact
-            instance.save()
+        instance = super().save(**kwargs)
         if employees is not None:
             instance.employees.set(employees)
         if products is not None:

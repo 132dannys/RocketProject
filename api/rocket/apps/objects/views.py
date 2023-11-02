@@ -50,6 +50,9 @@ class ChainObjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["GET"])
     def object_statistic(self, request):
+        """
+        Method of getting Objects, where Debt more than average Debt in Chain.
+        """
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.filter(dept__gt=queryset.aggregate(average_dept=Avg("dept"))["average_dept"])
         serializer = self.get_serializer(queryset, many=True)
@@ -57,6 +60,9 @@ class ChainObjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["POST"])
     def send_email(self, request):
+        """
+        Method of sending email with QRCode Contact information to User.
+        """
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.filter(uuid=request.data["uuid"])
         serializer = ChainObjectListSerializer(queryset, many=True)
