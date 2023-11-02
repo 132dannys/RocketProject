@@ -12,6 +12,6 @@ CELERY_TIMEZONE = DJANGO_TIME_ZONE
 CELERY_TASK_IGNORE_RESULT = True
 
 CELERY_BEAT_SCHEDULE = {
-    "increase_dept": {"task": "rocket.apps.objects.tasks.increase_dept", "schedule": crontab(hour="*/30", minute=0)},
-    "decrease_dept": {"task": "rocket.apps.objects.tasks.decrease_dept", "schedule": crontab(hour=6, minute=30)},
+    "increase_debt": {"task": "rocket.apps.objects.tasks.increase_debt", "schedule": crontab(hour="*/30", minute=0)},
+    "decrease_debt": {"task": "rocket.apps.objects.tasks.decrease_debt", "schedule": crontab(hour=6, minute=30)},
 }

@@ -15,7 +15,7 @@ class ChainObject(CoreModel):
     type = models.PositiveSmallIntegerField(choices=PlaceType.choices, default=PlaceType.factory)
     supplier = models.ForeignKey("self", related_name="parent", null=True, blank=True, on_delete=models.SET_NULL)
     products = models.ManyToManyField("products.Product", related_name="chain_objects", default=None, blank=True)
-    dept = models.DecimalField(default=0, max_digits=100, decimal_places=2)
+    debt = models.DecimalField(default=0, max_digits=100, decimal_places=2)
 
     def clean(self):
         """

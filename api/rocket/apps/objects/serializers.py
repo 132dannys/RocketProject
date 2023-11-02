@@ -13,7 +13,7 @@ class BaseObjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ChainObject
-        fields = ("uuid", "name", "type", "supplier", "products", "employees", "dept", "contact", "created")
+        fields = ("uuid", "name", "type", "supplier", "products", "employees", "debt", "contact", "created")
 
     def save(self, **kwargs):
         """

@@ -38,15 +38,15 @@
             <em id="{{ object.uuid }}">{{ object.contact.email }}</em>
         </div>
         <div class="col-md-2">
-            <b>Dept:</b>
-            {{ object.dept }}
+            <b>Debt:</b>
+            {{ object.debt }}
         </div>
         <div class="col-md-2">
             <b>Supplier:</b>
             {{ object.supplier }}
         </div>
         <div class="col-md-2">
-            <button type="button" id="{{ object.uuid }}_id" class="btn btn-dark" onclick="copyEmail(id)">Copy Email</button>
+            <button type="button" id="{{ object.contact.email }}" class="btn btn-dark" onclick="copyEmail(id)">Copy Email</button>
         </div>
 
     </div>

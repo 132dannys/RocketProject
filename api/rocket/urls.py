@@ -32,7 +32,7 @@ admin_urlpatterns = [
 
 api_v1_urlpatterns = [
     path(
-        "objects",
+        "objects/",
         ChainObjectView.as_view(),
     ),
     path(

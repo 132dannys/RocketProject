@@ -11,20 +11,20 @@ from rocket.settings import MEDIA_ROOT
 
 
 @shared_task
-def increase_dept():
+def increase_debt():
     """
     Increase debt by random value in range from 5 to 500.
     """
-    qs = ChainObject.objects.exclude(type=0).update(dept=F("dept") + round(uniform(5, 500), 2))
+    qs = ChainObject.objects.exclude(type=0).update(debt=F("debt") + round(uniform(5, 500), 2))
 
 
 @shared_task
-def decrease_dept():
+def decrease_debt():
     """
     Decrease debt by random value in range from 100 to 10000.
     """
-    qs = ChainObject.objects.exclude(type=0).update(dept=F("dept") - round(uniform(100, 10000), 2))
-    qs = ChainObject.objects.filter(dept__lt=0).update(dept=0)
+    qs = ChainObject.objects.exclude(type=0).update(debt=F("debt") - round(uniform(100, 10000), 2))
+    qs = ChainObject.objects.filter(debt__lt=0).update(debt=0)
 
 
 @shared_task
@@ -33,7 +33,7 @@ def clear_debt_action(uuids: list):
     Clear debt from admin panel.
     """
     for uuid in uuids:
-        obj = ChainObject.objects.filter(uuid=uuid).update(dept=0.00)
+        obj = ChainObject.objects.filter(uuid=uuid).update(debt=0.00)
 
 
 @shared_task

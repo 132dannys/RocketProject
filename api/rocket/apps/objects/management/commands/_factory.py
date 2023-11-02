@@ -75,7 +75,7 @@ class ChainObjectFactory(DjangoModelFactory):
                 return None
 
     @factory.lazy_attribute
-    def dept(self):
+    def debt(self):
         if self.type == 0:
             return 0
         else:

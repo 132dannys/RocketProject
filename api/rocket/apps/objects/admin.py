@@ -8,7 +8,7 @@ from rocket.apps.objects.tasks import clear_debt_action
 
 @admin.register(ChainObject)
 class ChainObjectAdmin(admin.ModelAdmin):
-    list_display = ("name", "type", "dept", "supplier_link", "contact", "created")
+    list_display = ("name", "type", "debt", "supplier_link", "contact", "created")
     list_filter = ("contact__city",)
     readonly_fields = ("supplier_link",)
     actions = ("clear_debt",)
@@ -17,12 +17,12 @@ class ChainObjectAdmin(admin.ModelAdmin):
     def clear_debt(self, request, queryset):
         if len(queryset) >= 20:
             clear_debt_action.delay(list(queryset.values_list("uuid", flat=True)))
-            self.message_user(request, "Depts were successfully cleaned.", messages.SUCCESS)
+            self.message_user(request, "Debts were successfully cleaned.", messages.SUCCESS)
             return
-        updated = queryset.update(dept=0.00)
+        updated = queryset.update(debt=0.00)
         self.message_user(
             request,
-            ngettext("%d Debt was successfully cleaned.", "%d Depts were successfully cleaned.", updated) % updated,
+            ngettext("%d Debt was successfully cleaned.", "%d Debts were successfully cleaned.", updated) % updated,
             messages.SUCCESS,
         )
 
